@@ -1,13 +1,8 @@
-import React from 'react';
-import { useAccountStore } from './store/accountStore';
+import React from "react";
+import { useAccountStore } from "../store";
 
 const AccountList: React.FC = () => {
   const accounts = useAccountStore((state) => state.accounts);
-  const showPasswords = useAccountStore((state) => state.showPasswords);
-
-  if (!showPasswords) {
-    return null;
-  }
 
   return (
     <div>
