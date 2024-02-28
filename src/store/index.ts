@@ -10,18 +10,16 @@ export interface Account {
 type AccountStore = {
   accounts: Account[];
   addAccount: (account: Account) => void;
-  getAccountById: (id: number) => Account;
 };
 
 export const useAccountStore = create<AccountStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       accounts: [],
       addAccount: (account) =>
         set((state) => ({
           accounts: [...state.accounts, account],
         })),
-      getAccountById: (id: number) => get().accounts[id],
     }),
     { name: "accountStore" },
   ),
