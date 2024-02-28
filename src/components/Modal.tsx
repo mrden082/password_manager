@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Account, useAccountStore } from "./store";
+import { Account, useAccountStore } from "../store";
 
 interface ModalProps {
   onClose: () => void;

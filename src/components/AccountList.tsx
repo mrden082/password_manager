@@ -1,5 +1,5 @@
 import React from "react";
-import { useAccountStore } from "./store";
+import { useAccountStore } from "../store";
 
 const AccountList: React.FC = () => {
   const accounts = useAccountStore((state) => state.accounts);
