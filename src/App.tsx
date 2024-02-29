@@ -1,18 +1,12 @@
 import React, { useState } from "react";
 import AccountList from "./components/AccountList";
 import Modal from "./components/Modal";
-<<<<<<< HEAD
 import ModalTwo from "./components/ModalTwo";
-=======
->>>>>>> c437d49a94a4ea80e8321b2fa386a83fb2347a55
 import "./App.css";
 
 const App: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
-<<<<<<< HEAD
   const [showModalTwo, setShowModalTwo] = useState<boolean>(false);
-=======
->>>>>>> c437d49a94a4ea80e8321b2fa386a83fb2347a55
   const [showPasswords, setShowPasswords] = useState<boolean>(false);
 
   const handleShowModal = () => {
@@ -23,7 +17,6 @@ const App: React.FC = () => {
     setShowModal(false);
   };
 
-<<<<<<< HEAD
   const handleShowModalTwo = () => {
     setShowModalTwo(true);
   };
@@ -56,18 +49,6 @@ const App: React.FC = () => {
       </div>
       {showModal && <Modal onClose={handleCloseModal} />}
       {showModalTwo && <ModalTwo onClose={handleCloseModalTwo} />}
-=======
-  return (
-    <div>
-      <button onClick={handleShowModal} className="btn">
-        Add Account
-      </button>
-      <button onClick={() => setShowPasswords(!showPasswords)} className="btn">
-        Show Account List
-      </button>
-      {showPasswords && <AccountList />}
-      {showModal && <Modal onClose={handleCloseModal} />}
->>>>>>> c437d49a94a4ea80e8321b2fa386a83fb2347a55
     </div>
   );
 };

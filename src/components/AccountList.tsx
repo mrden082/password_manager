@@ -1,9 +1,5 @@
 import React from "react";
-<<<<<<< HEAD
 import { useAccountStore} from "./store";
-=======
-import { useAccountStore } from "../store";
->>>>>>> c437d49a94a4ea80e8321b2fa386a83fb2347a55
 
 interface AccountListProps {
   showModalTwo: () => void;
@@ -11,7 +7,6 @@ interface AccountListProps {
 
 const AccountList: React.FC<AccountListProps> = ({ showModalTwo }) => {
   const accounts = useAccountStore((state) => state.accounts);
-<<<<<<< HEAD
   const setAccounts = useAccountStore((state) => state.setAccounts);
 
   const handleDeleteAccount = (index: number) => {
@@ -19,8 +14,6 @@ const AccountList: React.FC<AccountListProps> = ({ showModalTwo }) => {
     updatedAccounts.splice(index, 1);
     setAccounts(updatedAccounts);
   };
-=======
->>>>>>> c437d49a94a4ea80e8321b2fa386a83fb2347a55
 
   return (
     <div className="account-list">
