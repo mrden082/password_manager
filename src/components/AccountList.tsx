@@ -1,26 +1,43 @@
-import React from 'react';
-import { useAccountStore } from './store/accountStore';
+import React from "react";
+import { useAccountStore} from "./store";
 
-const AccountList: React.FC = () => {
+interface AccountListProps {
+  showModalTwo: () => void;
+}
+
+const AccountList: React.FC<AccountListProps> = ({ showModalTwo }) => {
   const accounts = useAccountStore((state) => state.accounts);
-  const showPasswords = useAccountStore((state) => state.showPasswords);
+  const setAccounts = useAccountStore((state) => state.setAccounts);
 
-  if (!showPasswords) {
-    return null;
-  }
+  const handleDeleteAccount = (index: number) => {
+    const updatedAccounts = [...accounts];
+    updatedAccounts.splice(index, 1);
+    setAccounts(updatedAccounts);
+  };
 
   return (
-    <div>
-      <h1>Saved Accounts</h1>
-      <ul>
-        {accounts.map((account, index) => (
-          <li key={index}>
-            <span>Username: {account.username}</span>
-            <span>Password: {account.password}</span>
-            <span>URL: {account.url}</span>
-          </li>
-        ))}
-      </ul>
+    <div className="account-list">
+      {accounts.length > 0 ? (
+        <ul>
+          {accounts.map((account, index) => (
+            <li key={index}>
+              <div onClick={showModalTwo}>
+                <span>Логин: {account.username}</span>
+                <br />
+                <span>URL: {account.url}</span>
+              </div>
+              <button
+                className="delete-btn"
+                onClick={() => handleDeleteAccount(index)}
+              >
+                Удалить
+              </button>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Нет сохранённых аккаунтов.</p>
+      )}
     </div>
   );
 };

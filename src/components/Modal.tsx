@@ -1,51 +1,69 @@
-import React, { useState } from 'react';
-import { useAccountStore } from './store/accountStore';
+import React, { useRef, useState } from "react";
+import { useAccountStore, Account } from "./store";
 
 interface ModalProps {
-  onSave: (account: Account) => void;
   onClose: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ onSave, onClose }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [url, setUrl] = useState('');
+const Modal: React.FC<ModalProps> = ({ onClose }) => {
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const urlRef = useRef<HTMLInputElement>(null);
+
+  const addAccount = useAccountStore((state) => state.addAccount);
+
+  const [invalidInput, setInvalidInput] = useState<boolean>(false);
 
   const handleSave = () => {
-    const account: Account = { username, password, url };
-    onSave(account);
-    setUsername('');
-    setPassword('');
-    setUrl('');
+    const username = usernameRef.current?.value.trim();
+    const password = passwordRef.current?.value.trim();
+    const url = urlRef.current?.value.trim();
+
+    if (!username || !password || !url) {
+      setInvalidInput(true);
+      return;
+    }
+
+    const account: Account = {
+      username,
+      password,
+      url,
+    };
+
+    addAccount(account);
+    onClose();
   };
 
   return (
     <div className="modal">
       <div className="modal-content">
-        <span onClick={onClose} className="close">&times;</span>
-        <h2>Add Account</h2>
+        <span onClick={onClose} className="close">
+          &times;
+        </span>
+        <h2>Добавить Аккаунт</h2>
         <div>
           <input
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Enter username"
+            ref={usernameRef}
+            placeholder="Введите логин"
+            className={invalidInput ? "invalid-input" : ""}
           />
           <input
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter password"
+            ref={passwordRef}
+            placeholder="Введите пароль"
+            className={invalidInput ? "invalid-input" : ""}
           />
           <input
             type="text"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder="Enter URL"
+            ref={urlRef}
+            placeholder="Введите URL"
+            className={invalidInput ? "invalid-input" : ""}
           />
         </div>
-
-        <button onClick={handleSave}>Save</button>
+        <button className="save-btn" onClick={handleSave}>
+          Сохранить
+        </button>
       </div>
     </div>
   );

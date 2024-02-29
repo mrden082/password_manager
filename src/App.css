@@ -1,44 +1,75 @@
-#root {
+.container {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header h1 {
+  margin: 0;
+  flex-grow: 1;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.content {
+  background-color: #404040;
+  padding: 2rem;
+  border-radius: 5px;
+  margin-bottom: 2rem;
+  text-align: center;
+  width: 75rem;
 }
 
-.card {
-  padding: 2em;
+.account-list ul {
+  list-style-type: none;
+  font-size: 1.65em;
+  padding: 0;
 }
 
-.read-the-docs {
-  color: #888;
+.account-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  background-color: #535353;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+li:hover {
+  color: #0cb300;
+  border: 2px solid rgb(8, 117, 0);
+}
+
+.save-btn {
+  border: 1px solid rgb(0, 0, 0);
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  background-color: limegreen;
+  color: #000000;
+  border-radius: 10px;
+}
+
+.delete-btn {
+  border-radius: 8px;
+  border: 2px solid rgb(0, 0, 0);
+  font-size: 1em;
+  font-weight: bold;
+  font-family: inherit;
+  background-color: red;
+  color: #000000;
+  cursor: pointer;
+  padding: 0.5em;
+  width: 6em;
 }
 
 .modal {
@@ -53,6 +84,10 @@
   align-items: center;
 }
 
+.buttons {
+  display: flex;
+}
+
 .modal-content {
   background-color: #2f2f2f;
   padding: 20px;
@@ -60,6 +95,7 @@
   box-shadow: 0 0 10px #000;
   max-width: 400px;
   width: 100%;
+  position: relative;
 }
 
 .close {
@@ -68,19 +104,7 @@
   right: 10px;
   cursor: pointer;
   font-size: 24px;
-  color: #888;
-}
-
-h2 {
-  margin-top: 0;
-}
-
-input, button {
-  margin-bottom: 10px;
-  width: 60%;
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
+  color: #ffffff;
 }
 
 .invalid-input {
@@ -88,29 +112,26 @@ input, button {
   outline-color: red;
 }
 
-ul {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-}
-
-li {
-  margin-bottom: 10px;
-}
-
 .btn {
   background-color: limegreen;
-  color: #fff;
-  width: 150px;
-  height: 80px;
-  border: none;
-  border-radius: 5px;
-  font-size: 18px;
+  color: #000000;
+  width: 165px;
+  height: 95px;
+  border: 1px solid black;
+  border-radius: 10px;
+  font-size: 15px;
   font-weight: bold;
   margin-right: 10px;
 }
 
+.delete-btn:hover {
+  background-color: #6a0707;
+}
 
 .btn:hover {
+  background-color: #087700;
+}
+
+.save-btn:hover {
   background-color: #087700;
 }
