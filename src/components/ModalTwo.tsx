@@ -1,29 +1,42 @@
-import React, { useState } from "react";
-import { useAccountStore, Account } from "./store";
+import React, { useState, useEffect } from "react";
+import { Account } from "./interfaces";
 
 interface ModalTwoProps {
   onClose: () => void;
+  selectedAccount: Account | null;
+  onSaveAccount: (updatedAccount: Account) => void;
 }
 
-const ModalTwo: React.FC<ModalTwoProps> = ({ onClose }) => {
-  const selectedAccount = useAccountStore((state) => state.selectedAccount);
-  const [editedUsername, setEditedUsername] = useState<string>(selectedAccount?.username || "");
-  const [editedPassword, setEditedPassword] = useState<string>(selectedAccount?.password || "");
-  const [editedUrl, setEditedUrl] = useState<string>(selectedAccount?.url || "");
+const ModalTwo: React.FC<ModalTwoProps> = ({
+  onClose,
+  selectedAccount,
+  onSaveAccount,
+}) => {
+  const [editedAccount, setEditedAccount] = useState<Account | null>(null);
+  const [editedUsername, setEditedUsername] = useState("");
+  const [editedPassword, setEditedPassword] = useState("");
+  const [editedUrl, setEditedUrl] = useState("");
+
+  useEffect(() => {
+    if (selectedAccount) {
+      setEditedAccount(selectedAccount);
+      setEditedUsername(selectedAccount.username);
+      setEditedPassword(selectedAccount.password);
+      setEditedUrl(selectedAccount.url);
+    }
+  }, [selectedAccount]);
 
   const handleSave = () => {
-    if (selectedAccount) {
+    if (editedAccount) {
       const updatedAccount: Account = {
-        ...selectedAccount,
+        ...editedAccount,
         username: editedUsername,
         password: editedPassword,
         url: editedUrl,
       };
 
-      useAccountStore.getState().editAccount(updatedAccount);
+      onSaveAccount(updatedAccount);
     }
-
-    onClose();
   };
 
   return (
@@ -34,9 +47,10 @@ const ModalTwo: React.FC<ModalTwoProps> = ({ onClose }) => {
         </span>
         <h2>Изменить Аккаунт</h2>
 
-        {selectedAccount && (
+        {editedAccount && (
           <>
-            <p>
+
+<p>
               Логин:{" "}
               <input
                 type="text"

@@ -1,34 +1,31 @@
 import React from "react";
-import { useAccountStore} from "./store";
+import { Account } from "./interfaces";
 
 interface AccountListProps {
-  showModalTwo: () => void;
+  accounts: Account[];
+  onEditAccount: (account: Account) => void;
+  onDeleteAccount: (account: Account) => void;
 }
 
-const AccountList: React.FC<AccountListProps> = ({ showModalTwo }) => {
-  const accounts = useAccountStore((state) => state.accounts);
-  const setAccounts = useAccountStore((state) => state.setAccounts);
-
-  const handleDeleteAccount = (index: number) => {
-    const updatedAccounts = [...accounts];
-    updatedAccounts.splice(index, 1);
-    setAccounts(updatedAccounts);
-  };
-
+const AccountList: React.FC<AccountListProps> = ({
+  accounts,
+  onEditAccount,
+  onDeleteAccount,
+}) => {
   return (
     <div className="account-list">
       {accounts.length > 0 ? (
         <ul>
-          {accounts.map((account, index) => (
-            <li key={index}>
-              <div onClick={showModalTwo}>
+          {accounts.map((account) => (
+            <li key={account.username}>
+              <div onClick={() => onEditAccount(account)}>
                 <span>Логин: {account.username}</span>
                 <br />
                 <span>URL: {account.url}</span>
               </div>
               <button
                 className="delete-btn"
-                onClick={() => handleDeleteAccount(index)}
+                onClick={() => onDeleteAccount(account)}
               >
                 Удалить
               </button>

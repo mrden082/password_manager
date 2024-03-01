@@ -1,16 +1,15 @@
-import React, { useRef, useState } from "react";
-import { useAccountStore, Account } from "./store";
+import React, { useState } from 'react';
+import { Account } from './store';
 
 interface ModalProps {
   onClose: () => void;
+  onSaveAccount: (account: Account) => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ onClose }) => {
-  const usernameRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const urlRef = useRef<HTMLInputElement>(null);
-
-  const addAccount = useAccountStore((state) => state.addAccount);
+const Modal: React.FC<ModalProps> = ({ onClose, onSaveAccount }) => {
+  const usernameRef = React.useRef<HTMLInputElement>(null);
+  const passwordRef = React.useRef<HTMLInputElement>(null);
+  const urlRef = React.useRef<HTMLInputElement>(null);
 
   const [invalidInput, setInvalidInput] = useState<boolean>(false);
 
@@ -30,7 +29,7 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
       url,
     };
 
-    addAccount(account);
+    onSaveAccount(account);
     onClose();
   };
 
@@ -46,19 +45,19 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
             type="text"
             ref={usernameRef}
             placeholder="Введите логин"
-            className={invalidInput ? "invalid-input" : ""}
+            className={invalidInput ? 'invalid-input' : ''}
           />
           <input
             type="password"
             ref={passwordRef}
             placeholder="Введите пароль"
-            className={invalidInput ? "invalid-input" : ""}
+            className={invalidInput ? 'invalid-input' : ''}
           />
           <input
             type="text"
             ref={urlRef}
             placeholder="Введите URL"
-            className={invalidInput ? "invalid-input" : ""}
+            className={invalidInput ? 'invalid-input' : ''}
           />
         </div>
         <button className="save-btn" onClick={handleSave}>
