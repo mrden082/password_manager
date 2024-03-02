@@ -1,17 +1,19 @@
 import React from "react";
-import { Account } from "./interfaces";
-
-interface AccountListProps {
-  accounts: Account[];
-  onEditAccount: (account: Account) => void;
-  onDeleteAccount: (account: Account) => void;
-}
+import { AccountListProps, Account } from "./interfaces";
+import { useAccountStore } from "../store";
 
 const AccountList: React.FC<AccountListProps> = ({
   accounts,
   onEditAccount,
   onDeleteAccount,
 }) => {
+  const deleteAccount = useAccountStore((state) => state.deleteAccount);
+
+  const handleDeleteAccount = (account: Account) => {
+    deleteAccount(account);
+    onDeleteAccount(account); // Added onDeleteAccount callback
+  };
+
   return (
     <div className="account-list">
       {accounts.length > 0 ? (
@@ -25,7 +27,7 @@ const AccountList: React.FC<AccountListProps> = ({
               </div>
               <button
                 className="delete-btn"
-                onClick={() => onDeleteAccount(account)}
+                onClick={() => handleDeleteAccount(account)}
               >
                 Удалить
               </button>

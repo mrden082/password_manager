@@ -36,6 +36,7 @@ const ModalTwo: React.FC<ModalTwoProps> = ({
       };
 
       onSaveAccount(updatedAccount);
+      onClose();
     }
   };
 
@@ -49,8 +50,7 @@ const ModalTwo: React.FC<ModalTwoProps> = ({
 
         {editedAccount && (
           <>
-
-<p>
+            <p>
               Логин:{" "}
               <input
                 type="text"
@@ -61,7 +61,7 @@ const ModalTwo: React.FC<ModalTwoProps> = ({
             <p>
               Пароль:{" "}
               <input
-                type="text"
+                type="password"
                 value={editedPassword}
                 onChange={(e) => setEditedPassword(e.target.value)}
               />

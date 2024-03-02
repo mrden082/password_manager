@@ -1,15 +1,10 @@
-import React, { useState } from 'react';
-import { Account } from './store';
-
-interface ModalProps {
-  onClose: () => void;
-  onSaveAccount: (account: Account) => void;
-}
+import React, { useState, useRef } from 'react';
+import { Account, ModalProps } from './interfaces';
 
 const Modal: React.FC<ModalProps> = ({ onClose, onSaveAccount }) => {
-  const usernameRef = React.useRef<HTMLInputElement>(null);
-  const passwordRef = React.useRef<HTMLInputElement>(null);
-  const urlRef = React.useRef<HTMLInputElement>(null);
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const urlRef = useRef<HTMLInputElement>(null);
 
   const [invalidInput, setInvalidInput] = useState<boolean>(false);
 

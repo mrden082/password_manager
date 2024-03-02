@@ -2,23 +2,20 @@ import React, { useState } from "react";
 import AccountList from "./components/AccountList";
 import Modal from "./components/Modal";
 import ModalTwo from "./components/ModalTwo";
+import { Account } from "./components/interfaces";
+import { useAccountStore } from "./store";
 import "./App.css";
-import { useAccountStore, Account } from "./store";
 
 const App: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showModalTwo, setShowModalTwo] = useState<boolean>(false);
   const [showPasswords, setShowPasswords] = useState<boolean>(false);
+  const [selectedAccount, setSelectedAccount] = useState<Account | null>(null); // Added state for selected account
 
-  const accounts = useAccountStore<Account[]>((state) => state.accounts);
-  const setAccounts = useAccountStore((state) => state.setAccounts);
-  const deleteAccount = useAccountStore((state) => state.deleteAccount);
+  const accounts = useAccountStore((state) => state.accounts);
   const addAccount = useAccountStore((state) => state.addAccount);
+  const deleteAccount = useAccountStore((state) => state.deleteAccount);
   const editAccount = useAccountStore((state) => state.editAccount);
-
-  const [selectedAccount, setSelectedAccount] = useState<Account | null>(
-    null
-  );
 
   const handleShowModal = () => {
     setShowModal(true);
@@ -29,12 +26,13 @@ const App: React.FC = () => {
   };
 
   const handleShowModalTwo = (account: Account) => {
-    setSelectedAccount(account);
     setShowModalTwo(true);
+    setSelectedAccount(account);
   };
 
   const handleCloseModalTwo = () => {
     setShowModalTwo(false);
+    setSelectedAccount(null);
   };
 
   const handleTogglePasswords = () => {
@@ -65,9 +63,7 @@ const App: React.FC = () => {
             Добавить Аккаунт
           </button>
           <button onClick={handleTogglePasswords} className="btn">
-            {showPasswords
-              ? "Скрыть Список Аккаунтов"
-              : "Показать Список Аккаунтов"}
+            {showPasswords ? "Скрыть Список Аккаунтов" : "Показать Список Аккаунтов"}
           </button>
         </div>
       </div>
@@ -84,7 +80,7 @@ const App: React.FC = () => {
       {showModal && (
         <Modal onClose={handleCloseModal} onSaveAccount={handleAddAccount} />
       )}
-      {showModalTwo && (
+      {showModalTwo && selectedAccount && (
         <ModalTwo
           onClose={handleCloseModalTwo}
           selectedAccount={selectedAccount}
