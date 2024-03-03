@@ -1,18 +1,33 @@
-import React, { useState, useRef } from 'react';
-import { Account, ModalProps } from './interfaces';
+import React, { useState, useEffect } from 'react';
+import { Account, ModalCombinedProps } from './interfaces';
+import { useAccountStore } from '../store';
 
-const Modal: React.FC<ModalProps> = ({ onClose, onSaveAccount }) => {
-  const usernameRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const urlRef = useRef<HTMLInputElement>(null);
+const Modal: React.FC<ModalCombinedProps> = ({
+  onClose,
+  onSaveAccount,
+  onCloseModalTwo,
+  onSaveAccountTwo,
+  selectedAccount,
+  selectedAccountTwo,
+}) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [url, setUrl] = useState('');
+  const [invalidInput, setInvalidInput] = useState(false);
 
-  const [invalidInput, setInvalidInput] = useState<boolean>(false);
+  useEffect(() => {
+    if (selectedAccount) {
+      setUsername(selectedAccount.username);
+      setPassword(selectedAccount.password);
+      setUrl(selectedAccount.url);
+    } else if (selectedAccountTwo) {
+      setUsername(selectedAccountTwo.username);
+      setPassword(selectedAccountTwo.password);
+      setUrl(selectedAccountTwo.url);
+    }
+  }, [selectedAccount, selectedAccountTwo]);
 
   const handleSave = () => {
-    const username = usernameRef.current?.value.trim();
-    const password = passwordRef.current?.value.trim();
-    const url = urlRef.current?.value.trim();
-
     if (!username || !password || !url) {
       setInvalidInput(true);
       return;
@@ -23,41 +38,70 @@ const Modal: React.FC<ModalProps> = ({ onClose, onSaveAccount }) => {
       password,
       url,
     };
+    
+    if (selectedAccount) {
+      onSaveAccountTwo(account);
+    } else {
+      onSaveAccount(account);
+    }
 
-    onSaveAccount(account);
-    onClose();
+    setInvalidInput(false);
+    setUsername('');
+    setPassword('');
+    setUrl('');
+  };
+
+  const handleClose = () => {
+    if (selectedAccount) {
+      onCloseModalTwo();
+    } else {
+      onClose();
+    }
+    
+    setInvalidInput(false);
+    setUsername('');
+    setPassword('');
+    setUrl('');
   };
 
   return (
     <div className="modal">
       <div className="modal-content">
-        <span onClick={onClose} className="close">
-          &times;
-        </span>
-        <h2>Добавить Аккаунт</h2>
-        <div>
+      <h2>{selectedAccount ? 'Изменить Аккаунт' : 'Добавить Аккаунт'}</h2>
+      <button className="close" type="button" onClick={handleClose}>X</button>
+      <form onSubmit={(e) => e.preventDefault()}>
+        <div className="inputs">
+          <label htmlFor="username">Имя пользователя:</label>
           <input
             type="text"
-            ref={usernameRef}
-            placeholder="Введите логин"
-            className={invalidInput ? 'invalid-input' : ''}
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
+      
+          <label htmlFor="password">Пароль:</label>
           <input
             type="password"
-            ref={passwordRef}
-            placeholder="Введите пароль"
-            className={invalidInput ? 'invalid-input' : ''}
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
+      
+          <label htmlFor="url">URL:</label>
           <input
             type="text"
-            ref={urlRef}
-            placeholder="Введите URL"
-            className={invalidInput ? 'invalid-input' : ''}
+            id="url"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
           />
         </div>
-        <button className="save-btn" onClick={handleSave}>
-          Сохранить
-        </button>
+        {invalidInput && (
+          <p className="error">Пожалуйста, заполните все поля.</p>
+        )}
+          <button className='save-btn' type="submit" onClick={handleSave}>
+            {selectedAccount ? 'Сохранить' : 'Добавить'}
+          </button>
+      </form>
       </div>
     </div>
   );

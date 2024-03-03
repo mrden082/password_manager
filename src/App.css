@@ -40,6 +40,7 @@
   border-radius: 5px;
   padding: 1rem;
   margin-bottom: 1rem;
+  border: 2px solid rgba(8, 117, 0, 0);
 }
 
 li:hover {
@@ -84,10 +85,6 @@ li:hover {
   align-items: center;
 }
 
-.buttons {
-  display: flex;
-}
-
 .modal-content {
   background-color: #2f2f2f;
   padding: 20px;
@@ -99,6 +96,7 @@ li:hover {
 }
 
 .close {
+  background: none;
   position: absolute;
   top: 10px;
   right: 10px;
@@ -116,12 +114,13 @@ li:hover {
   background-color: limegreen;
   color: #000000;
   width: 165px;
-  height: 95px;
+  height: 70px;
   border: 1px solid black;
   border-radius: 10px;
   font-size: 15px;
   font-weight: bold;
   margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 .delete-btn:hover {
@@ -134,4 +133,10 @@ li:hover {
 
 .save-btn:hover {
   background-color: #087700;
+}
+
+.search {
+  font-size: 15.1px;
+  width: 71em;
+  height: 2em;
 }
